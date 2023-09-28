@@ -20,6 +20,12 @@ $border-radius: 8px;
 
 /********** Custom CSS ************/
 
+* {box-sizing: border-box}
+
+.container {
+  padding: 16px;
+}
+
 h1,
 h2,
 .font-weight-bold {
