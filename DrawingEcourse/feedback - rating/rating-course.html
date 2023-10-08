@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Rating Course</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+    
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-content {
+            position: relative;
+            padding: 10px;
+            width: 400px;
+            margin: auto;
+            background-color: #fefefe;
+            border: 1px solid #777;
+            box-shadow: 0px 4px 8px 0px rgba(3, 3, 3, 0.3);
+            -webkit-animation-name: slideDown;
+            -webkit-animation-duration: 1s;
+            animation-name: slideDown;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes slideDown {
+            from {
+                top: -100vh;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                top: -100vh;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .wrapper {
+            width: 100%;
+            padding: 0.3rem 0.6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .rate-box {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 1.1rem;
+        }
+
+        .rate-box input {
+            display: none;
+        }
+
+        .rate-box input:hover~.star:before {
+            color: rgba(255, 204, 51, 0.5);
+        }
+
+        .rate-box input:active+.star:before {
+            transform: scale(0.9);
+        }
+
+        .rate-box input:checked~.star:before {
+            color: #ffcc33;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.8);
+        }
+
+        .rate-box .star:before {
+            content: "★";
+            display: inline-block;
+            font-family: "Potta One", cursive;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #0000;
+            text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+            background-color: #aaa;
+            background-clip: text;
+            -webkit-background-clip: text;
+            transition: all 0.3s;
+        }
+
+        textarea {
+            border: none;
+            resize: none;
+            width: 80%;
+            padding: 1.5rem;
+            color: inherit;
+            font-family: inherit;
+            line-height: 1.5;
+            border-radius: 0.3rem;
+            box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.3), inset -2px -2px 8px rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        textarea::placeholder {
+            color: #aaa;
+        }
+
+        textarea:focus {
+            outline-color: #ffcc33;
+        }
+
+        .submit-btn {
+            padding: 1rem 1.5rem;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.8);
+            border-radius: 1rem;
+            cursor: pointer;
+            background-color: orange;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:active {
+            transform: translate(2px, 2px);
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Rate this Course</h2>
+    <button id="myButton">Rate</button>
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <div class="wrapper">
+
+                <h2>Your Review</h2>
+                <div class="rate-box">
+                    <input type="radio" name="star" id="star0" checked="checked" />
+                    <label class="star" for="star0"></label>
+                    <input type="radio" name="star" id="star1" />
+                    <label class="star" for="star1"></label>
+                    <input type="radio" name="star" id="star2" />
+                    <label class="star" for="star2"></label>
+                    <input type="radio" name="star" id="star3" />
+                    <label class="star" for="star3"></label>
+                    <input type="radio" name="star" id="star4" />
+                    <label class="star" for="star4"></label>
+                </div>
+                <hr>
+
+                <textarea name="name" id="name" cols="5" rows="1" placeholder="Write your review (optional)"></textarea>
+                <hr>
+
+                <div class="submit-btn">Send</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        myButton.addEventListener("click", function () {
+            myPopup.classList.add("show");
+        });
+        closePopup.addEventListener("click", function () {
+            myPopup.classList.remove("show");
+        });
+        window.addEventListener("click", function (event) {
+            if (event.target == myPopup) {
+                myPopup.classList.remove("show");
+            }
+        });
+    </script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
