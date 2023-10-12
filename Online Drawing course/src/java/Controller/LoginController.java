@@ -5,38 +5,60 @@
  */
 package Controller;
 
+import DAO.UserDAO;
+import DAO.UserDTO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.rmi.server.LogStream.log;
 
 
 /**
  *
- * @author Nguyen Hien
+ * @author Minh
  */
-public class MainController extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
+public class LoginController extends HttpServlet {
 
-    private static final String LOGIN_PAGE = "login.html";
-    private static final String LOGIN = "Login";
-    private static final String LOGIN_CONTROLLER = "LoginController";
-    
+    private static final String LOGIN_PAGE = "login.jsp";
+    private static final String ADMIN_PAGE = "admin.jsp";
+    private static final String USER_PAGE = "user.jsp";
+    private static final String US = "US";
+    private static final String AD = "AD";
+    private static final String ST = "ST";
+    private static final String IN = "IN";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = LOGIN_PAGE;
-        try{
-            String action = request.getParameter("action");
-            if (action == null) {
-                url = LOGIN_PAGE;
-            } else if (LOGIN.equals(action)) {
-                url = LOGIN_CONTROLLER;
-            }
+        try {
+            String userID = request.getParameter("userID");
+            String password = request.getParameter("password");
+            UserDAO dao = new UserDAO();
+            UserDTO loginUser=dao.checkLogin(userID, password);
             
-        }catch (Exception e) {
-            log("Error at MainController: " + e.toString());
+            if(loginUser==null){
+                request.setAttribute("ERROR", "Incorrect userID or password roi kia!");
+            }else{
+                String roleID=loginUser.getRoleID();
+                HttpSession session = request.getSession();
+                if(AD.equals(roleID)){
+                    session.setAttribute("LOGIN_USER",loginUser);
+                    url=ADMIN_PAGE;
+                }else if(US.equals(roleID)){
+                    session.setAttribute("LOGIN_USER", loginUser);
+                    url=USER_PAGE;
+                }else{
+                    request.setAttribute("ERROR", "Your role is not supported yet!");
+                }
+            }
+        } catch (Exception e) {
+            log("Error at LoginController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
