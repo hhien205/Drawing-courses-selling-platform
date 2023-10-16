@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Courses</title>
+    <link rel="stylesheet" href="stylelearncourse.css">
+</head>
+<body>
+    <script>
+        function openCity(evt, cityName) {
+          // Declare all variables
+          var i, tabcontent, tablinks;
+        
+          // Get all elements with class="tabcontent" and hide them
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+        
+          // Get all elements with class="tablinks" and remove the class "active"
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+        
+          // Show the current tab, and add an "active" class to the link that opened the tab
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+              </script>
+
+
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'Lesson 1')">Lesson 1</button>
+        <button class="tablinks" onclick="openCity(event, 'Lesson 2')">Lesson 2</button>
+        <button class="tablinks" onclick="openCity(event, 'Lesson 3')" >Lesson 3</button>
+        <button class="tablinks" onclick="openCity(event, 'Lesson 4')">Lesson 4</button>
+      
+      </div>
+      
+      <div id="Lesson 1" class="tabcontent">
+        <video src="Y2meta.app - Learn HTML video in 2 minutes 🎥.mp4" width="900" controls></video>
+
+        <p>Description</p>
+      </div>
+      
+      <div id="Lesson 2" class="tabcontent">
+        <video src="Y2meta.app - Learn HTML video in 2 minutes 🎥.mp4" width="900" controls></video>
+        <p>Description</p>
+      </div>
+      
+      <div id="Lesson 3" class="tabcontent">
+        <video src="Y2meta.app - Learn HTML video in 2 minutes 🎥.mp4" width="900" controls></video>
+        <p>Description</p>
+      </div>
+
+
+   
+</body>
+
+
+
+</html>
