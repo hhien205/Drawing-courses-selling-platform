@@ -20,7 +20,7 @@ import Utils.DBUtils;
 public class UserDAO {
 
     private static final String SEARCH = "SELECT userID, fullName, roleID FROM tblUsers  WHERE fullName like ?";
-    private static final String LOGIN = "SELECT userName, roleID FROM tblUsers WHERE email=? AND password=?";
+    private static final String LOGIN = "SELECT userName, roleID  FROM User WHERE userName=? AND password=?";
     private static final String DELETE = "DELETE tblUsers WHERE userID=?";
     private static final String UPDATE = "UPDATE tblUsers SET fullName=?, roleID=? WHERE userID = ?";
     private static final String CHECK_DUPLICATE="SELECT roleID FROM tblUsers WHERE userID=?";
@@ -28,39 +28,42 @@ public class UserDAO {
     
     
     
-    public UserDTO checkLogin(String userID, String password, String userName) throws SQLException {
-        UserDTO user = null;
-        Connection conn = null;
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
-                ptm = conn.prepareStatement(LOGIN);
-                ptm.setString(1, userID);
-                ptm.setString(2, password);
-                rs = ptm.executeQuery();
-                if (rs.next()) {
-                    String name = rs.getString("userName");
-                    String roleID = rs.getString("roleID");
-                    user = new UserDTO(userID, userName, roleID, "");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (ptm != null) {
-                ptm.close();
-            }
-            if (conn != null) {
-                conn.close();
+    public UserDTO checkLogin(String userID, String password) throws SQLException {
+    UserDTO user = null;
+    Connection conn = null;
+    PreparedStatement ptm = null;
+    ResultSet rs = null;
+    try {
+        conn = DBUtils.getConnection();
+        if (conn != null) {
+            ptm = conn.prepareStatement(LOGIN);
+            ptm.setString(1, userID);
+            ptm.setString(2, password);
+            rs = ptm.executeQuery();
+            if (rs.next()) {
+                String userName = rs.getString("userName");
+                String roleID = rs.getString("roleID");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                int phone = rs.getInt("phone");
+                user = new UserDTO(userID, userName, roleID, password, email, address, phone);
             }
         }
-        return user;
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (rs != null) {
+            rs.close();
+        }
+        if (ptm != null) {
+            ptm.close();
+        }
+        if (conn != null) {
+            conn.close();
+        }
     }
+    return user;
+}
 
     public List<UserDTO> getListUser(String search) throws SQLException {
         List<UserDTO> list = new ArrayList<>();
@@ -135,7 +138,7 @@ public class UserDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(UPDATE);
 
-                ptm.setString(1, user.getFullName());
+                //ptm.setString(1, user.getFullName());
                 ptm.setString(2, user.getRoleID());
                 ptm.setString(3, user.getUserID());
                 check = ptm.executeUpdate()>0? true:false;
@@ -199,7 +202,7 @@ public class UserDAO {
                               +"VALUES(?,?,?,?)";
 
                 ptm = conn.prepareStatement(sql);
-                ptm.setString(1, user.getFullName());
+                //ptm.setString(1, user.getFullName());
                 ptm.setString(2, user.getRoleID());
                 ptm.setString(3, user.getUserID());
                 ptm.setString(4, user.getPassword());

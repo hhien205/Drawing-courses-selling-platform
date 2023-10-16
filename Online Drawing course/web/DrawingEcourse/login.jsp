@@ -198,10 +198,11 @@
                         <p>Or sign in manually:</p>
                     </div>
                     <form action="MainController" method="POST">
-                        <input type="text" name="username" placeholder="Username" required=""/>
+                        <input type="text" name="userName" placeholder="Username" required=""/>
                         <input type="password" name="password" placeholder="Password" required=""/>
                         <input type="submit" name="action" value="Login"/>
                     </form>
+                    ${requestScope.ERROR}
                 </div>
 
             </div>

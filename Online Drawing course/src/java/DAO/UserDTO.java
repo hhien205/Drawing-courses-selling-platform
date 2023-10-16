@@ -25,8 +25,7 @@ public class UserDTO {
     this.password="";
     this.roleID="";
     this.userName="";
-    this.address="";
-    
+    this.address="";    
     this.email="";
 }
 
@@ -38,6 +37,10 @@ public class UserDTO {
         this.email = email;
         this.address = address;
         this.phone = phone;
+    }
+
+    UserDTO(String userID, String userName, String roleID, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getUserID() {
