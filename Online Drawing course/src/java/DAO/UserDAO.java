@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Utils.DBUtils;
-
+    
 /**
  *
  * @author Minh
@@ -20,7 +20,10 @@ import Utils.DBUtils;
 public class UserDAO {
 
     private static final String SEARCH = "SELECT userID, fullName, roleID FROM tblUsers  WHERE fullName like ?";
-    private static final String LOGIN = "SELECT userName, roleID  FROM User WHERE userName=? AND password=?";
+    private static final String LOGIN = "select *from [User]\n" 
+            +
+            "where [userName] = ?" 
+            + "and password = ?";
     private static final String DELETE = "DELETE tblUsers WHERE userID=?";
     private static final String UPDATE = "UPDATE tblUsers SET fullName=?, roleID=? WHERE userID = ?";
     private static final String CHECK_DUPLICATE="SELECT roleID FROM tblUsers WHERE userID=?";
@@ -28,7 +31,7 @@ public class UserDAO {
     
     
     
-    public UserDTO checkLogin(String userID, String password) throws SQLException {
+    public UserDTO checkLogin(String userName, String password) throws SQLException {
     UserDTO user = null;
     Connection conn = null;
     PreparedStatement ptm = null;
@@ -37,16 +40,16 @@ public class UserDAO {
         conn = DBUtils.getConnection();
         if (conn != null) {
             ptm = conn.prepareStatement(LOGIN);
-            ptm.setString(1, userID);
+            ptm.setString(1, userName);
             ptm.setString(2, password);
-            rs = ptm.executeQuery();
+            rs = ptm.executeQuery(); 
             if (rs.next()) {
-                String userName = rs.getString("userName");
+                String userID = rs.getString("userID");
                 String roleID = rs.getString("roleID");
                 String email = rs.getString("email");
                 String address = rs.getString("address");
                 int phone = rs.getInt("phone");
-                user = new UserDTO(userID, userName, roleID, password, email, address, phone);
+                return user = new UserDTO(userID, userName, roleID, password, email, address, phone);
             }
         }
     } catch (Exception e) {

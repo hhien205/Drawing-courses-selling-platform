@@ -39,9 +39,6 @@ public class UserDTO {
         this.phone = phone;
     }
 
-    UserDTO(String userID, String userName, String roleID, String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public String getUserID() {
         return userID;

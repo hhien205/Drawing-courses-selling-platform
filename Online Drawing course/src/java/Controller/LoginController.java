@@ -28,10 +28,10 @@ public class LoginController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String ADMIN_PAGE = "admin.jsp";
     private static final String USER_PAGE = "user.jsp";
-    private static final String US = "2";
+    private static final String US = "user";
     private static final String AD = "1";
-    private static final String ST = "3";
-    private static final String IN = "4";
+    private static final String ST = "staff";
+    private static final String IN = "instructor";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,7 +43,7 @@ public class LoginController extends HttpServlet {
             UserDTO loginUser=dao.checkLogin(userName, password);
             
             if(loginUser==null){
-                request.setAttribute("ERROR", "Incorrect userID or password roi kia!");
+                request.setAttribute("ERROR", "Incorrect userID or password");
             }else{
                 String roleID=loginUser.getRoleID();
                 HttpSession session = request.getSession();
