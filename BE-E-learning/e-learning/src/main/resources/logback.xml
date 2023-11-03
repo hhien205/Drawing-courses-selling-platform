@@ -7,7 +7,7 @@
         <withJansi>true</withJansi>
     </appender>
 
-    <logger name="vn.hcmute.elearning" level="TRACE" />
+    <logger name="vn.fpt.elearning" level="TRACE" />
     <logger name="vn.unicloud" level="DEBUG" />
 <!--    <logger name="vn.hcmute" level="DEBUG" />-->
 
