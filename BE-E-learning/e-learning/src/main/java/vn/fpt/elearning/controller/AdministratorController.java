@@ -60,4 +60,5 @@ public class AdministratorController extends BaseController implements IAdminist
         request.setPageable(pageable);
         return this.execute(request);
     }
+	//controller để xử lý khi nhận được request
 }
