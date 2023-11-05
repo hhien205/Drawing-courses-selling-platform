@@ -16,6 +16,10 @@ public class RegisterCourseHandler extends RequestHandler<RegisterCourseRequest,
 
     private final ICourseService courseService;
 
+    public RegisterCourseHandler(ICourseService courseService) {
+        this.courseService = courseService;
+    }
+
     @Override
     public RegisterCourseResponse handle(RegisterCourseRequest request) {
         CourseRegisterStrategy strategy = courseService.getRegisterStrategy(request.getPaymentType());

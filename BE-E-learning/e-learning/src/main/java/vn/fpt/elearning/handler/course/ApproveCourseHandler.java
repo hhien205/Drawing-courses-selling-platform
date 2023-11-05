@@ -18,21 +18,14 @@ import vn.fpt.elearning.service.interfaces.ICourseService;
 public class ApproveCourseHandler extends RequestHandler<ApproveCourseRequest, StatusResponse> {
     private final ICourseService iCourseService;
 
-    public ApproveCourseHandler(ICourseService iCourseService) {
-        this.iCourseService = iCourseService;
-    }
-
     @Override
     public StatusResponse handle(ApproveCourseRequest request) {
         Course course = iCourseService.getCourseById(request.getId());
         if (course == null) {
             throw new InternalException(ResponseCode.COURSE_NOT_FOUND);
         }
-        return approveCourse(course);
-    }
-
-    private StatusResponse approveCourse(Course course) {
         course.setApproveStatus(ApproveStatus.APPROVE);
+
         iCourseService.save(course);
         return new StatusResponse();
     }
