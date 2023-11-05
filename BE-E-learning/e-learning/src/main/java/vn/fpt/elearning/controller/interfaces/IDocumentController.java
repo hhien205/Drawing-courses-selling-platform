@@ -66,3 +66,4 @@ public interface IDocumentController {
     ResponseEntity<ResponseBase<GetListDocumentResponse>> getDocumentForStudent(@PathVariable String lessonId);
 
 }
+/
