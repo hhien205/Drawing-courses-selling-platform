@@ -66,4 +66,8 @@ public interface IDocumentController {
     ResponseEntity<ResponseBase<GetListDocumentResponse>> getDocumentForStudent(@PathVariable String lessonId);
 
 }
-/
+//public void Create(Member member)
+{
+    AssSalesContext.Instance.Add(member);
+    AssSalesContext.Instance.SaveChanges();
+}
