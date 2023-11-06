@@ -20,6 +20,11 @@ public class BlockCourseHandler extends RequestHandler<BlockCourseRequest, Block
     private final ICourseService courseService;
     private final ICourseMapper courseMapper;
 
+    public BlockCourseHandler(ICourseService courseService, ICourseMapper courseMapper) {
+        this.courseService = courseService;
+        this.courseMapper = courseMapper;
+    }
+
     @Override
     public BlockCourseResponse handle(BlockCourseRequest request) {
         Course course = courseService.getCourseById(request.getId());
