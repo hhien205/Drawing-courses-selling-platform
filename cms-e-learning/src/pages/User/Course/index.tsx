@@ -31,50 +31,42 @@ const RegisterCourse: React.FC = () => {
 
   return (
     <>
-      function renderCourses(listCourse, pageSize, onShowSizeChange, onChange, current, total) {
-  const hasCourses = listCourse.length > 0;
-  const courses = hasCourses ? (
-    <div className="wrapper">
-      {listCourse.map((data) => {
-        return <CardCourse course={data} type="register" />;
-      })}
-    </div>
-  ) : (
-    <div
-      style={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Empty />
-    </div>
-  );
-
-  const pagination = hasCourses && (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Pagination
-        showSizeChanger
-        pageSize={pageSize}
-        onShowSizeChange={onShowSizeChange}
-        onChange={onChange}
-        current={current}
-        pageSizeOptions={[3, 6, 9, 12]}
-        total={total}
+      <BreadcrumbCustom
+        subNav={[
+          { name: 'Home', path: '/welcome' },
+          { name: 'Courses', path: '' },
+        ]}
       />
-    </div>
-  );
-
-  return (
-    <>
-      {courses}
-      {pagination}
-    </>
-  );
-}
-
+      <div className="wrapper">
+        {listCourse.map((data) => {
+          return <CardCourse course={data} type="register" />;
+        })}
+      </div>
+      {listCourse.length > 0 ? (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Pagination
+            showSizeChanger
+            pageSize={pageSize}
+            onShowSizeChange={onShowSizeChange}
+            onChange={onChange}
+            current={current}
+            pageSizeOptions={[3, 6, 9, 12]}
+            total={total}
+          />
+        </div>
+      ) : (
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Empty />
+        </div>
+      )}
     </>
   );
 };
