@@ -1,7 +1,7 @@
-student: hhien24012002@gmail.com  12345678
-	     xquy118@gmail.com 		12345678
-	     tranminhngocphuc16@gmail.com 123456
-teacher: minhcangthang@gmail.com	12345678
+student:     hhien24012002@gmail.com          12345678
+	     xquy118@gmail.com 		      12345678
+	     tranminhngocphuc16@gmail.com     123456
+teacher:     minhcangthang@gmail.com	      12345678
 
 staff: 0987654343 T1234567#
 
