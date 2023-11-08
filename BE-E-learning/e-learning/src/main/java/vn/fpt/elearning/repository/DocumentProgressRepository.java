@@ -5,15 +5,18 @@ import org.springframework.data.jpa.repository.Query;
 import vn.fpt.elearning.entity.DocumentProgress;
 
 public interface DocumentProgressRepository extends JpaRepository<DocumentProgress, String> {
-    void deleteByDocumentIdAndUserId(String documentId, String userId);
+    void deleteByDocumentIdAndUserId(final String documentId, final String userId);
 
-    boolean existsByDocumentIdAndUserId(String documentId, String userId);
-
-    @Query("select count(dp.id) " +
-        "from DocumentProgress dp " +
-        "inner join dp.document d " +
-        "inner join d.lesson l " +
-        "inner join l.course c " +
-        "where c.id = :courseId and dp.user.id = :userId and d.displayStatus = 'VISIBLE' and l.displayStatus = 'VISIBLE'")
-    long countByCourseIdAndUserId(String courseId, String userId);
+    boolean existsByDocumentIdAndUserId(final String documentId, final String userId);
+    
+    @Query("SELECT COUNT(dp.id) " +
+           "FROM DocumentProgress dp " +
+           "JOIN dp.document d " +
+           "JOIN d.lesson l " +
+           "JOIN l.course c " +
+           "WHERE c.id = :courseId " +
+           "AND dp.user.id = :userId " +
+           "AND d.displayStatus = 'VISIBLE' " +
+           "AND l.displayStatus = 'VISIBLE'")
+    long countByCourseIdAndUserId(final String courseId, final String userId);
 }
