@@ -14,16 +14,21 @@ import vn.fpt.elearning.service.interfaces.IAdministratorService;
 @Component
 @RequiredArgsConstructor
 public class UnbanAdminHandler extends RequestHandler<UnbanAdminRequest, StatusResponse> {
+    
     private final IAdministratorService administratorService;
 
     @Override
     public StatusResponse handle(UnbanAdminRequest request) {
         Administrator administrator = administratorService.getById(request.getId());
+
         if (administrator == null) {
             throw new InternalException(ResponseCode.ADMIN_IS_NOT_EXISTED);
         }
+
         administrator.setStatus(AdminStatus.ACTIVE);
         administratorService.save(administrator);
+
         return new StatusResponse();
     }
 }
+

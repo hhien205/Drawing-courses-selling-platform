@@ -10,23 +10,26 @@ import vn.fpt.elearning.enums.ResponseCode;
 import vn.fpt.elearning.mapper.IAdminMapper;
 import vn.fpt.elearning.exception.InternalException;
 import vn.fpt.elearning.service.interfaces.IAdministratorService;
-
 @Component
 @RequiredArgsConstructor
 public class UpdateInfoAdminHandler extends RequestHandler<UpdateInfoAdminRequest, UpdateInfoAdminResponse> {
+    
     private final IAdministratorService administratorService;
     private final IAdminMapper adminMapper;
 
     @Override
     public UpdateInfoAdminResponse handle(UpdateInfoAdminRequest request) {
         Administrator administrator = administratorService.getById(request.getId());
+
         if (administrator == null) {
             throw new InternalException(ResponseCode.ADMIN_IS_NOT_EXISTED);
         }
+
         administrator.setEmail(request.getEmail());
         administrator.setFullName(request.getFullName());
 
         Administrator administratorSave = administratorService.save(administrator);
+
         return new UpdateInfoAdminResponse(adminMapper.toAdministratorDto(administratorSave));
     }
 }
