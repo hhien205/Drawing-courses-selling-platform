@@ -21,9 +21,25 @@ public class UpdatePostHandler implements IUpdateModelHandler<String, UpdatePost
 
     @Override
     public void validate(ForumPost entity, UpdatePostRequest request) {
-        if (!entity.getCreatedBy().equals(request.getUserId())) {
-            throw notFound();
+        if (entity.getCreatedBy() == null || !entity.getCreatedBy().equals(request.getUserId())) {
+            throw new InternalException(ResponseCode.FORUM_POST_NOT_FOUND, "The forum post was not found or you don't have permission to update it.");
         }
+
+        if (StringUtils.isBlank(request.getTitle())) {
+            throw new InternalException(ResponseCode.INVALID_REQUEST, "Post title cannot be blank.");
+        }
+
+        if (StringUtils.length(request.getTitle()) > 255) {
+            throw new InternalException(ResponseCode.INVALID_REQUEST, "Post title cannot exceed 255 characters.");
+        }
+
+        if (StringUtils.isBlank(request.getContent())) {
+            throw new InternalException(ResponseCode.INVALID_REQUEST, "Post content cannot be blank.");
+        }
+
+        // Add more validation checks as needed...
+
+        // If you reach here, validation passed.
     }
 
     @Override
@@ -31,3 +47,4 @@ public class UpdatePostHandler implements IUpdateModelHandler<String, UpdatePost
         return new InternalException(ResponseCode.FORUM_POST_NOT_FOUND);
     }
 }
+
