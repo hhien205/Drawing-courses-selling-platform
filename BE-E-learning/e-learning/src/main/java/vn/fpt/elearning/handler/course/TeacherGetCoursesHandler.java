@@ -17,6 +17,7 @@ import vn.fpt.elearning.service.specifications.CourseSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -37,12 +38,13 @@ public class TeacherGetCoursesHandler extends RequestHandler<TeacherGetCoursesRe
                 .and(courseSpecification.equalApproveStatus(request.getApproveStatus()));
         Page<Course> courses = courseService.getListCourses(specification, request.getPageable());
 
-        List<CourseDto> courseDtoList = new ArrayList<>();
-        courses.getContent().forEach(course -> {
+        List<CourseDto> courseDtoList = courses.getContent().stream()
+        .map(course -> {
             CourseDto courseDto = courseMapper.toCourseDto(course);
             courseDto.setCurrentPrice(course.getPrice() * (100 - course.getDiscountPercentage()) / 100);
-            courseDtoList.add(courseDto);
-        });
-        return new GetListCoursesResponse(courseDtoList, new Paginate(courses));
+            return courseDto;
+        })
+        .collect(Collectors.toList());
+
     }
 }
