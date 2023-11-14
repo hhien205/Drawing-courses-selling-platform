@@ -1,10 +1,11 @@
-package vn.fpt.elearning.anotation.file;
+package vn.fpt.elearning.annotation.file;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
 public class FileValidation implements ConstraintValidator<File, MultipartFile> {
@@ -23,7 +24,17 @@ public class FileValidation implements ConstraintValidator<File, MultipartFile> 
 
     @Override
     public boolean isValid(MultipartFile value, ConstraintValidatorContext context) {
-        return validFileSize(value) && validExtension(value);
+        if (!validFileSize(value)) {
+            throwConstraintViolation("File size exceeds the allowed limit.");
+            return false;
+        }
+
+        if (!validExtension(value)) {
+            throwConstraintViolation("Invalid file extension. Allowed extensions: " + Arrays.toString(this.extensions));
+            return false;
+        }
+
+        return true;
     }
 
     private boolean validFileSize(MultipartFile file) {
@@ -33,5 +44,9 @@ public class FileValidation implements ConstraintValidator<File, MultipartFile> 
     private boolean validExtension(MultipartFile file) {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         return Arrays.stream(this.extensions).anyMatch(e -> e.equalsIgnoreCase(extension));
+    }
+
+    private void throwConstraintViolation(String message) {
+        throw new ConstraintViolationException(message, null);
     }
 }
