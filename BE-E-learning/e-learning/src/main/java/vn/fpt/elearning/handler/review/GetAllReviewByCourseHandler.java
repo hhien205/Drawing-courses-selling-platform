@@ -23,11 +23,19 @@ public class GetAllReviewByCourseHandler extends RequestHandler<GetAllReviewByCo
     private final ICourseService courseService;
     @Override
     public GetAllReviewByCourseResponse handle(GetAllReviewByCourseRequest request) {
+        // Ensure the course exists, or throw an exception
         Course course = courseService.getCourseByIdNotNull(request.getCourseId());
+    
+        // Retrieve reviews for the specified course
         Page<Review> page = reviewService.getAllByCourseId(request.getCourseId(), request.getPageable());
-        List<ReviewResponse> list = page.getContent().stream()
-            .map(review -> new ReviewResponse(review, request.getUserId()))
-            .collect(Collectors.toList());
-        return new GetAllReviewByCourseResponse(list, new Paginate(page));
+    
+        // Convert the reviews to a list of ReviewResponse objects
+        List<ReviewResponse> reviewResponses = page.getContent().stream()
+                .map(review -> new ReviewResponse(review, request.getUserId()))
+                .collect(Collectors.toList());
+    
+        // Create and return the response object
+        return new GetAllReviewByCourseResponse(reviewResponses, new Paginate(page));
     }
+    
 }
