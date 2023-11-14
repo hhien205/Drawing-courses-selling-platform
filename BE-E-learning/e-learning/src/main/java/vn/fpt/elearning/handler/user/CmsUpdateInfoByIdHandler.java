@@ -20,23 +20,24 @@ public class CmsUpdateInfoByIdHandler extends RequestHandler<CmsUpdateInfoByIdRe
     @Override
     public UpdateInfoResponse handle(CmsUpdateInfoByIdRequest request) {
         User user = userService.getUserById(request.getId());
+        
         if (user == null) {
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
+    
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setBirthday(request.getBirthday());
         user.setGender(request.getGender());
-        if (request.getAvatar() != null && !request.getAvatar().equals("")) {
-            user.setAvatar(request.getAvatar());
-        }
+        user.setAvatar(request.getAvatar() != null && !request.getAvatar().equals("") ? request.getAvatar() : user.getAvatar());
         user.setProvince(addressService.findProvinceById(request.getProvinceId()));
         user.setDistrict(addressService.findDistrictById(request.getDistrictId()));
         user.setWard(addressService.findWardById(request.getWardId()));
         user.setHomeNumber(request.getHomeNumber());
         user.setStreetName(request.getStreetName());
-
+    
         user = userService.updateUser(user);
         return new UpdateInfoResponse(user);
     }
+    
 }
